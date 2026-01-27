@@ -20,14 +20,14 @@ typedef double f64;
 typedef int b32;
 typedef char b8;
 
-// Properly define static assertions.
+// Properly(должным образом) define(определить) static assertions.
 #if defined(__clang__) || defined(__gcc__)
 #define STATIC_ASSERT _Static_assert
 #else
 #define STATIC_ASSERT static_assert
 #endif
 
-// Ensure all types are of the correct size.
+// Ensure(убедиться) all types are of the correct size.
 STATIC_ASSERT(sizeof(u8) == 1, "Expected u8 to be 1 byte.");
 STATIC_ASSERT(sizeof(u16) == 2, "Expected u16 to be 2 bytes.");
 STATIC_ASSERT(sizeof(u32) == 4, "Expected u32 to be 4 bytes.");
