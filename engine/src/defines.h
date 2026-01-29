@@ -98,15 +98,20 @@ STATIC_ASSERT(sizeof(f64) == 8, "Expected f64 to be 8 bytes.");
 
 //MSVC (Windows)
 #ifdef _MSC_VER
-#define KAPI __declspec(dllexport)
+//MSVC (и другие компиляторы для Windows) требует указания, какие символы (функции, переменные) должны быть экспортированы, и __declspec(dllexport) говорит компилятору, что функция или объект будет доступен за пределами DLL.
+  #define KAPI __declspec(dllexport)
 //GCC / Clang
 #else
+//В отличие от Windows, где для экспорта нужно использовать __declspec(dllexport), на Unix-подобных системах используется механизм видимости символов. 
+//__attribute__((visibility("default"))) позволяет сделать символ видимым для других программ.
+//При компиляции динамических библиотек по умолчанию все символы скрыты, и только те, что явно помечены как видимые (с помощью этой атрибуты или -fvisibility=default), экспортируются.
 #define KAPI __attribute__((visibility("default")))
 #endif
 
 /*Если мы используем библиотеку */
 #else
 #ifdef _MSC_VER
+//Компилятор MSVC использует __declspec(dllimport) для того, чтобы при компиляции кода правильно обработать внешние символы, которые будут разрешены в момент линковки с динамической библиотекой.
 #define KAPI __declspec(dllimport)
 #else
 #define KAPI
