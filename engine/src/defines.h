@@ -1,33 +1,38 @@
 #pragma once
 
-// Unsigned int types.
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef unsigned int u32;
-typedef unsigned long long u64;
+// Беззнаковые целые
+typedef unsigned char u8;        // 8 бит 
+typedef unsigned short u16;      // 16 бит
+typedef unsigned int u32;        // 32 бита
+typedef unsigned long long u64;  // 64 бита 
 
-// Signed int types.
-typedef signed char i8;
-typedef signed short i16;
-typedef signed int i32;
-typedef signed long long i64;
 
-// Floating point types
-typedef float f32;
-typedef double f64;
+// Знаковые целые
+typedef signed char i8;          //8 бит 
+typedef signed short i16;        //16 бит 
+typedef signed int i32;          //32 бита 
+typedef signed long long i64;    //64 бита
 
-// Boolean types
-typedef int b32;
-typedef char b8;
+// Числа с плавающей точкой
+ttypedef float f32;   // 32 бита
+typedef double f64;  // 64 бита
 
-// Properly(должным образом) define(определить) static assertions.
+// Логические типы 
+int b32;   // логическое значение (32 бита)
+typedef char b8;   // логическое значение (8 бит)
+
+
+
+//STATIC_ASSERT — статические проверки
 #if defined(__clang__) || defined(__gcc__)
 #define STATIC_ASSERT _Static_assert
 #else
 #define STATIC_ASSERT static_assert
 #endif
 
-// Ensure(убедиться) all types are of the correct size.
+
+//Проверка размеров типов
+//Если компилятор или платформа ведёт себя неожиданно — компиляция упадёт сразу, а не создаст скрытые баги. 
 STATIC_ASSERT(sizeof(u8) == 1, "Expected u8 to be 1 byte.");
 STATIC_ASSERT(sizeof(u16) == 2, "Expected u16 to be 2 bytes.");
 STATIC_ASSERT(sizeof(u32) == 4, "Expected u32 to be 4 bytes.");
@@ -41,68 +46,66 @@ STATIC_ASSERT(sizeof(i64) == 8, "Expected i64 to be 8 bytes.");
 STATIC_ASSERT(sizeof(f32) == 4, "Expected f32 to be 4 bytes.");
 STATIC_ASSERT(sizeof(f64) == 8, "Expected f64 to be 8 bytes.");
 
+//
 #define TRUE 1
 #define FALSE 0
 
-// Platform detection
+/* Определение платформы */
+//Определяет Windows 
+//Запрещает 32-битную сборку → движок строго 64-bit 
 #if defined(WIN32) || defined(_WIN32) || defined(__WIN32__) 
 #define KPLATFORM_WINDOWS 1
 #ifndef _WIN64
 #error "64-bit is required on Windows!"
 #endif
 
-
+//Linux / Android 
 #elif defined(__linux__) || defined(__gnu_linux__)
-// Linux OS
 #define KPLATFORM_LINUX 1
+
 #if defined(__ANDROID__)
 #define KPLATFORM_ANDROID 1
 #endif
 
-
+//Unix / POSIX
 #elif defined(__unix__)
-// Catch(поймать) anything not(всё что не) caught(поймали) by the above(выше).
 #define KPLATFORM_UNIX 1
 
 #elif defined(_POSIX_VERSION)
-// Posix
 #define KPLATFORM_POSIX 1
 
+//Apple (macOS / iOS)
 #elif __APPLE__
-// Apple platforms
 #define KPLATFORM_APPLE 1
-
 #include <TargetConditionals.h>
 #if TARGET_IPHONE_SIMULATOR
-// iOS Simulator
 #define KPLATFORM_IOS 1
 #define KPLATFORM_IOS_SIMULATOR 1
-
 #elif TARGET_OS_IPHONE
 #define KPLATFORM_IOS 1
-// iOS device
-
 #elif TARGET_OS_MAC
-// Other kinds of Mac OS
 #else
 #error "Unknown Apple platform"
 #endif
 
+//Если платформа неизвестна
 #else
 #error "Unknown platform!"
 #endif
 
+/* Если мы собираем библиотеку */
 #ifdef KEXPORT
 
-// Exports
+//MSVC (Windows)
 #ifdef _MSC_VER
 #define KAPI __declspec(dllexport)
+//GCC / Clang
 #else
 #define KAPI __attribute__((visibility("default")))
 #endif
 
+/*Если мы используем библиотеку */
 #else
-// Imports
 #ifdef _MSC_VER
 #define KAPI __declspec(dllimport)
 #else
