@@ -1,3 +1,9 @@
+/* 
+
+Этот код реализует систему логирования и обработку сбоев утверждений в приложении. Он включает в себя функции для инициализации логирования, вывод логов различных уровней (например, ошибки, предупреждения, отладка) и обработку сбоя утверждения. Всё это направлено на отслеживание и обработку состояния приложения во время выполнения 
+
+*/
+
 #include "logger.h"
 #include "asserts.h"
 
@@ -16,30 +22,45 @@ void shutdown_logging() {
 }
 
 void log_output(log_level level, const char* message, ...) {
+    //Массив строк, который соответствует разным уровням логирования: 
+    //[FATAL]: — для фатальных ошибок.
+    //[ERROR]: — для обычных ошибок.
+    //[WARN]: — для предупреждений.
+    //[INFO]: — для информационных сообщений.
+    //[DEBUG]: — для сообщений уровня отладки.
+    //[TRACE]: — для трассировочных сообщений.
     const char* level_strings[6] = {"[FATAL]: ", "[ERROR]: ", "[WARN]:  ", "[INFO]:  ", "[DEBUG]: ", "[TRACE]: "};
     // b8 is_error = level < 2;
 
-    // Technically imposes a 32k character limit on a single log entry, but...
-    // DON'T DO THAT!
+    //Буфер для хранения отформатированного сообщения лога. Он имеет размер 32 000 байт (32 КБ), что накладывает ограничение на длину одного сообщения. 
     char out_message[32000];
+    //Функция memset гарантирует, что все байты массива out_message будут установлены в значение 0. Это важно для того, чтобы избежать случайных значений в памяти, если массив используется позже, например, для строкового вывода.
     memset(out_message, 0, sizeof(out_message));
-
-    // Format original message.
-    // NOTE: Oddly enough, MS's headers override the GCC/Clang va_list type with a "typedef char* va_list" in some
-    // cases, and as a result throws a strange error here. The workaround for now is to just use __builtin_va_list,
-    // which is the type GCC/Clang's va_start expects.
+    // ПРИМЕЧАНИЕ: Странно, но заголовки MS перекрывают тип GCC/Clang va_list с помощью «typedef char* va_list» в некоторых
+    // кейсах, и в результате здесь возникает странная ошибка. Пока что обходной путь — просто использовать __builtin_va_list,
+   // что именно тот тип ожидает va_start GCC/Clang.
     __builtin_va_list arg_ptr;
+    //инициализирует список аргументов для дальнейшего использования в vsnprintf. 
     va_start(arg_ptr, message);
+    //формирует строку сообщения, используя формат и переменные, переданные в лог (через message и переменные аргументы ...).
     vsnprintf(out_message, 32000, message, arg_ptr);
+    //завершение использования переменного списка аргументов 
     va_end(arg_ptr);
-
+    //окончательный массив с сообщением
     char out_message2[32000];
+    //Формирует окончательное сообщение лога, добавляя к отформатированному сообщению префикс, который соответствует уровню логирования. Например, [INFO]: или [ERROR]:. 
     sprintf(out_message2, "%s%s\n", level_strings[level], out_message);
-
+    //Сообщение выводится на консоль с помощью printf. Это предполагает, что в будущем можно будет добавить поддержку других типов вывода, например, в файл или на платформенные средства вывода 
     // TODO: platform-specific output.
     printf("%s", out_message2);
 }
 
+//expression — строковое представление выражения, которое вызвало сбой.
+//message — дополнительное сообщение о причине сбоя.
+//file — имя файла, где произошло нарушение.
+//line — строка, на которой произошёл сбой. 
 void report_assertion_failure(const char* expression, const char* message, const char* file, i32 line) {
+
+    //Сообщение об ошибке будет выведено в лог с уровнем LOG_LEVEL_FATAL, что означает фатальную ошибку. 
     log_output(LOG_LEVEL_FATAL, "Assertion Failure: %s, message: '%s', in file: %s, line: %d\n", expression, message, file, line);
 } 
