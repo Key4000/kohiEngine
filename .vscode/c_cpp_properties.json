@@ -16,14 +16,7 @@
          "compilerPath": "/usr/bin/clang",
          "cStandard": "c11",
          "cppStandard": "c++17",
-         "intelliSenseMode": "clang-x64",
-         "browse": {
-            "path": [
-               "${workspaceFolder}/engine/src",
-               "${VULKAN_SDK}/include"
-            ],
-            "limitSymbolsToIncludedHeaders": true
-         }
+         "intelliSenseMode": "clang-x64"
       },
       {
          "name": "Win32",
@@ -41,14 +34,8 @@
          "compilerPath": "E:\\Programing\\LLVM\\bin\\clang.exe",
          "cStandard": "c11",
          "cppStandard": "c++17",
-         "intelliSenseMode": "msvc-x64",
-         "browse": {
-            "path": [
-               "${workspaceFolder}/engine/src",
-               "${VULKAN_SDK}/include"
-            ],
-            "limitSymbolsToIncludedHeaders": true
-         }
+         "intelliSenseMode": "clang-x64"
+         
       }
    ]
 }
