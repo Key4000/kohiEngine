@@ -45,7 +45,7 @@
          "browse": {
             "path": [
                "${workspaceFolder}/engine/src",
-               "${VULKAN_SDK}/Include"
+               "${VULKAN_SDK}/include"
             ],
             "limitSymbolsToIncludedHeaders": true
          }
