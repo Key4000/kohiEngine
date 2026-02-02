@@ -11,6 +11,7 @@
 #include "logger.h"
 #include "../defines.h"
 #include "asserts.h"
+#include "../platform/platform.h"
 
 // TODO: temporary
 #include <stdarg.h>
@@ -37,11 +38,12 @@ void log_output(log_level level, const char *message, ...) {
   //[TRACE]: — для трассировочных сообщений.
   const char *level_strings[6] = {"[FATAL]: ", "[ERROR]: ", "[WARN]:  ",
                                   "[INFO]:  ", "[DEBUG]: ", "[TRACE]: "};
-  // b8 is_error = level < 2;
+  b8 is_error = level < LOG_LEVEL_WARN;
 
   // Буфер для хранения отформатированного сообщения лога. Он имеет размер 32
   // 000 байт (32 КБ), что накладывает ограничение на длину одного сообщения.
-  char out_message[32000];
+  const i32 msg_length = 32000;
+  char out_message[msg_length];
   // Функция memset гарантирует, что все байты массива out_message будут
   // установлены в значение 0. Это важно для того, чтобы избежать случайных
   // значений в памяти, если массив используется позже, например, для строкового
@@ -56,11 +58,11 @@ void log_output(log_level level, const char *message, ...) {
   va_start(arg_ptr, message);
   // формирует строку сообщения, используя формат и переменные, переданные в лог
   // (через message и переменные аргументы ...).
-  vsnprintf(out_message, 32000, message, arg_ptr);
+  vsnprintf(out_message, msg_length, message, arg_ptr);
   // завершение использования переменного списка аргументов
   va_end(arg_ptr);
   // окончательный массив с сообщением
-  char out_message2[32000];
+  char out_message2[msg_length];
   // Формирует окончательное сообщение лога, добавляя к отформатированному
   // сообщению префикс, который соответствует уровню логирования. Например,
   // [INFO]: или [ERROR]:.
@@ -68,8 +70,12 @@ void log_output(log_level level, const char *message, ...) {
   // Сообщение выводится на консоль с помощью printf. Это предполагает, что в
   // будущем можно будет добавить поддержку других типов вывода, например, в
   // файл или на платформенные средства вывода
-  //  TODO: platform-specific output.
-  printf("%s", out_message2);
+  // Вывод с учитыванием платформы
+    if (is_error) {
+        platform_console_write_error(out_message2, level);
+    } else {
+        platform_console_write(out_message2, level);
+    }
 }
 
 // expression — строковое представление выражения, которое вызвало сбой.

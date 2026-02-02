@@ -16,19 +16,12 @@
          "compilerPath": "/usr/bin/clang",
          "cStandard": "c11",
          "cppStandard": "c++17",
-         "intelliSenseMode": "clang-x64",
-         "browse": {
-            "path": [
-               "${workspaceFolder}/engine/src",
-               "${VULKAN_SDK}/include"
-            ],
-            "limitSymbolsToIncludedHeaders": true
-         }
+         "intelliSenseMode": "clang-x64"
       },
       {
          "name": "Win32",
          "includePath": [
-            "${workspaceFolder}/engine/src",
+            "${workspaceFolder}/engine/src/**",
             "${VULKAN_SDK}/include"
          ],
          "defines": [
@@ -38,17 +31,11 @@
             "KEXPORT"
          ],
          "windowsSdkVersion": "10.0.17763.0",
-         "compilerPath": "E:/Programing/LLVM/bin/clang.exe",
+         "compilerPath": "E:\\Programing\\LLVM\\bin\\clang.exe",
          "cStandard": "c11",
          "cppStandard": "c++17",
-         "intelliSenseMode": "msvc-x64",
-         "browse": {
-            "path": [
-               "${workspaceFolder}/engine/src",
-               "${VULKAN_SDK}/Include"
-            ],
-            "limitSymbolsToIncludedHeaders": true
-         }
+         "intelliSenseMode": "clang-x64"
+         
       }
    ]
 }

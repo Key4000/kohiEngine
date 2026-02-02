@@ -1,5 +1,7 @@
-#include "core/asserts.h"
-#include "core/logger.h"
+
+#include "../../engine/src/core/asserts.h"
+#include <core/logger.h>
+
 
 int main(void) {
   KFATAL("A test message: %f", 3.14f);
