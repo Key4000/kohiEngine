@@ -17,6 +17,7 @@
 #include <stdio.h>
 #include <string.h>
 
+
 b8 initialize_logging() {
   // TODO: create log file.
   return TRUE;
