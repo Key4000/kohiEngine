@@ -16,7 +16,7 @@ SET compilerFlags=-g -shared -Wvarargs -Wall -Werror
 
 REM -Wall -Werror
 
-SET includeFlags=-Isrc -I%VULKAN_SDK%/Include
+SET includeFlags=-I%VULKAN_SDK%/Include -I../../engine/src
 SET linkerFlags=-luser32 -lvulkan-1 -L%VULKAN_SDK%/Lib
 SET defines=-D_DEBUG -DKEXPORT -D_CRT_SECURE_NO_WARNINGS
 
