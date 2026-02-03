@@ -9,7 +9,7 @@
 
 #pragma once
 
-#include "../defines.h"
+#include <defines.h>
 
 // состояние платформы
 typedef struct platform_state {

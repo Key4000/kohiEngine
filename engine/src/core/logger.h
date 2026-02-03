@@ -8,7 +8,7 @@
 
 #pragma once
 
-#include "../defines.h"
+#include <defines.h>
 
 /* Конфигурация уровня логирования: */
 #define LOG_WARN_ENABLED                                                       \

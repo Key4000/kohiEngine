@@ -9,7 +9,7 @@ FOR /R %%f IN (*.c) DO (
    SET cFilenames=!cFilenames! %%f
 )
 
-REM echo "Files:" %cFilenames%
+echo "Files:" %cFilenames%
 
 SET assembly=engine
 SET compilerFlags=-g -shared -Wvarargs -Wall -Werror

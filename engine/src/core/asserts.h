@@ -6,7 +6,7 @@
 
 #pragma once
 
-#include "../defines.h"
+#include <defines.h>
 
 // Если этот макрос закомментировать, то все проверки утверждений будут
 // отключены, и код в блоках #ifdef KASSERTIONS_ENABLED не будет выполняться.

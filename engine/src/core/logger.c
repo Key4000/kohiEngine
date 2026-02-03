@@ -7,17 +7,15 @@
 приложения во время выполнения
 
 */
-
-#include "logger.h"
-#include "../defines.h"
-#include "asserts.h"
-#include "../platform/platform.h"
+#include <core/logger.h>
+#include <defines.h>
+#include <platform/platform.h>
+#include <core/asserts.h>
 
 // TODO: temporary
 #include <stdarg.h>
 #include <stdio.h>
 #include <string.h>
-
 
 b8 initialize_logging() {
   // TODO: create log file.
@@ -71,11 +69,11 @@ void log_output(log_level level, const char *message, ...) {
   // будущем можно будет добавить поддержку других типов вывода, например, в
   // файл или на платформенные средства вывода
   // Вывод с учитыванием платформы
-    if (is_error) {
-        platform_console_write_error(out_message2, level);
-    } else {
-        platform_console_write(out_message2, level);
-    }
+  if (is_error) {
+    platform_console_write_error(out_message2, level);
+  } else {
+    platform_console_write(out_message2, level);
+  }
 }
 
 // expression — строковое представление выражения, которое вызвало сбой.
