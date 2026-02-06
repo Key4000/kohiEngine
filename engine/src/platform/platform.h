@@ -22,8 +22,8 @@ typedef struct platform_state {
 // Эта функция инициирует работу платформы. Она настраивает состояние платформы,
 // возможно, создает окно, устанавливает начальные параметры и запускает другие
 // ресурсы, необходимые для приложения. возвращаем true или false (удачно или
-// нет)
-KAPI b8 platform_startup(
+// нет
+b8 platform_startup(
     // Указатель на структуру platform_state, которая будет обновлена в процессе
     // старта.
     platform_state *plat_state,
@@ -36,19 +36,19 @@ KAPI b8 platform_startup(
 
 // Эта функция отвечает за завершение работы платформы, освобождение ресурсов и
 // закрытие приложения.
-KAPI void platform_shutdown(platform_state *plat_state);
+void platform_shutdown(platform_state *plat_state);
 
 // Обрабатывает события и сообщения системы (например, сообщения о входе с
 // клавиатуры, движения мыши, системные сигналы). возвращаем booelaen, успешно
 // или нет обработаны сообщения
-KAPI b8 platform_pump_messages(platform_state *plat_state);
+b8 platform_pump_messages(platform_state *plat_state);
 
 /* - - - Функции управления памятью - - */
 // Аллоцирует блок памяти заданного размера (size). Если aligned == true, память
 // будет выровнена по определенному адресу (например, 16 байт или 32 байта)
-void *platform_allocate(u64 size, b8 aligned);
+KAPI void *platform_allocate(u64 size, b8 aligned);
 // Освобождает ранее выделенную память через указатель block
-void platform_free(void *block, b8 aligned);
+KAPI void platform_free(void *block, b8 aligned);
 // обнуляет размер size заданного block памяти, но не освобождает!!!
 void *platform_zero_memory(void *block, u64 size);
 // Копирует данные из одной области source памяти в другую dest размером size
