@@ -363,6 +363,9 @@ LRESULT CALLBACK win32_process_message(HWND hwnd, u32 msg, WPARAM w_param, LPARA
         } break;
     }
 
+    // Если сообщение не обработано в switch,
+    // передаем его стандартному обработчику Windows
+    // Это важно для правильной работы стандартных функций окна 
     return DefWindowProcA(hwnd, msg, w_param, l_param);
 }
 
