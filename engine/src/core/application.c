@@ -9,6 +9,7 @@
 #include "logger.h"
 
 #include "platform/platform.h"
+#include "core/kmemory.h"
 
 //хранит глобальное состояние приложения
 //управляет игровым циклом
@@ -101,7 +102,9 @@ b8 application_create(game* game_inst) {
 
 //главный игровой цикл
 b8 application_run() {
-
+ //
+ KINFO(get_memory_usage_str());
+ 
  while (app_state.is_running) {
 
   //обработка сообщений ОС
