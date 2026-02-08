@@ -9,12 +9,15 @@
 #include "core/application.h"
 #include "core/logger.h"
 #include "game_types.h"
+#include "core/kmemory.h"
 
 //Внешне определенная функция для создания игры.
 extern b8 create_game(game* out_game);
 
 
 int main(void) {
+    initialize_memory();
+
     // Создание экземпляра игры
     game game_inst;
     if (!create_game(&game_inst)) {
@@ -45,6 +48,7 @@ int main(void) {
         KINFO("Приложение не завершило работу корректно.");
         return 2;
     }
+    shutdown_memory();
 
     return 0;
 }
