@@ -45,9 +45,10 @@ b8 platform_pump_messages(platform_state *plat_state);
 /* - - - Функции управления памятью - - */
 // Аллоцирует блок памяти заданного размера (size). Если aligned == true, память
 // будет выровнена по определенному адресу (например, 16 байт или 32 байта)
-KAPI void *platform_allocate(u64 size, b8 aligned);
+void *platform_allocate(u64 size, b8 aligned);
+
 // Освобождает ранее выделенную память через указатель block
-KAPI void platform_free(void *block, b8 aligned);
+void platform_free(void *block, b8 aligned);
 // обнуляет размер size заданного block памяти, но не освобождает!!!
 void *platform_zero_memory(void *block, u64 size);
 // Копирует данные из одной области source памяти в другую dest размером size
