@@ -13,9 +13,8 @@
 #include "game.h"
 
 #include <entry.h>
+#include <core/kmemory.h>
 
-// TODO: Remove this
-#include <platform/platform.h>
 
 //функция создания игры
 b8 create_game(game* out_game) {
@@ -30,8 +29,9 @@ b8 create_game(game* out_game) {
  out_game->initialize = game_initialize;
  out_game->on_resize = game_on_resize;
 
- //состояние игры 
- out_game->state = platform_allocate(sizeof(game_state), FALSE);
+  //состояние игры 
+ out_game->state = kallocate(sizeof(game_state), MEMORY_TAG_GAME);
+
 
  return TRUE;
 }
