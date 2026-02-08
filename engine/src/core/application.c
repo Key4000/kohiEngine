@@ -102,7 +102,8 @@ b8 application_create(game* game_inst) {
 
 //главный игровой цикл
 b8 application_run() {
- //
+
+ //получить сводку по памяти используемой в движке
  KINFO(get_memory_usage_str());
  
  while (app_state.is_running) {
