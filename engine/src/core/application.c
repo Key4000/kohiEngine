@@ -140,6 +140,7 @@ b8 application_run() {
 
  //остановка движка и убираем за собой
  app_state.is_running = FALSE;
+ event_shutdown();   //закрываем систему событий 
  platform_shutdown(&app_state.platform);
 
  return TRUE;
