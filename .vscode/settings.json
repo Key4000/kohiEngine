@@ -59,7 +59,8 @@
       "renderer_frontend.h": "c", 
       "iosfwd": "c", 
       "tuple": "cpp", 
-      "utility": cpp
+      "utility": cpp, 
+      "kmemory.h": c, 
    },
    "C_Cpp.default.compilerPath": "E:/Programing/LLVM/bin/clang.exe"
 }
