@@ -9,7 +9,8 @@
 #include "logger.h"
 
 #include "platform/platform.h"
-#include "core/kmemory.h"
+#include "core/kmemory.h" 
+#include "core/event.h"
 
 //хранит глобальное состояние приложения
 //управляет игровым циклом
@@ -66,6 +67,12 @@ b8 application_create(game* game_inst) {
  //Установка базовых флагов
  app_state.is_running = TRUE;
  app_state.is_suspended = FALSE;
+
+ //проверка инициализирована ли система событий, если нет, выбрасывается ошибка
+ if(!event_initialize()) {
+        KERROR("Event system failed initialization. Application cannot continue.");
+        return FALSE;
+    }
 
  //Инициализация платформы, через game_inst
  if (!platform_startup(
