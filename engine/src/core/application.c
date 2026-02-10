@@ -11,6 +11,7 @@
 #include "platform/platform.h"
 #include "core/kmemory.h" 
 #include "core/event.h"
+#include "core/input.h" 
 
 //хранит глобальное состояние приложения
 //управляет игровым циклом
@@ -53,8 +54,9 @@ b8 application_create(game* game_inst) {
  //Сохраняет переданный указатель на игровой объект в глобальном состоянии
  app_state.game_inst = game_inst;
 
- //Инициализация системы логирования:
+ //Инициализация системы логирования и ввода 
  initialize_logging();
+ input_initialize();
 
  // TODO: Remove this
  KFATAL("A test message: %f", 3.14f);
@@ -135,12 +137,18 @@ b8 application_run() {
     app_state.is_running = FALSE;
     break;
    }
+   // ПРИМЕЧАНИЕ: Обновление ввода / копирование состояния всегда должно выполняться
+// после того, как все входные данные будут записаны; Т.Е. перед этой строкой.
+// В качестве меры предосторожности, ввод — это последнее, что обновляется перед
+// завершением этого кадра.
+  input_update(0);
   }
  }
 
  //остановка движка и убираем за собой
  app_state.is_running = FALSE;
  event_shutdown();   //закрываем систему событий 
+ input_shutdown();   //закрываем систему ввода 
  platform_shutdown(&app_state.platform);
 
  return TRUE;
