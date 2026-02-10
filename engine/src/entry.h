@@ -39,7 +39,7 @@ int main(void) {
 
     // Инициализация
     if (!application_create(&game_inst)) {
-        KINFO("Не удалось создать приложение!.");
+        KFATAL("Не удалось создать приложение!.");
         return 1;
     }
 
